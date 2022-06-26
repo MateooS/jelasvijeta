@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MealResource;
-use App\Models\Meal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Meal;
+use App;
 
 class MealController extends Controller
 {
@@ -14,10 +16,43 @@ class MealController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-      $meals = Meal::latest()->get();
-      return MealResource::collection($meals);
+      /* TODO probably should be in a separate file */
+      $validator = Validator::make($request->all(), [
+        'lang' =>      'required|string|min:2|max:4',
+        'per_page' =>  'sometimes|integer|numeric',
+        'page' =>      'sometimes|integer|numeric',
+        'category' =>  'nullable|integer|numeric',
+        'tags.*' =>    'sometimes|integer|numeric',
+        'with' =>      'sometimes|string|min:3|max:30',
+        'diff_time' => 'sometimes|integer|numeric',
+      ]);
+
+      $i = 0;
+      $response = array();
+
+      if ($request['tags']) {
+        foreach (explode(',', $request['tags']) as $tag) {
+          if (!intval($tag))
+            dd("Invalid format of tags, it has to be numbers separated by ','");
+          /* TODO do something */
+
+          $response['tags'][$i] = $tag;
+          $i++;
+        }
+      }
+      
+      if ($validator->fails())
+        return $validator->messages()->first();
+
+      dd($request->all());
+
+      /* Change locale to a given lang, if doesn't exist fallback to EN */
+      App::setLocale($request['lang']);
+
+      $meals = Meal::latest()->paginate($request['per_page'] ?? 10);
+      return MealResource::collection($response);
     }
 
     /**
