@@ -20,12 +20,12 @@ class Meal extends Model implements TranslatableContract
     /* Specify that these are arrays as we will be storing tags' and
      * ingredients' ID's in arrays because multiple of them are allowed.
      */
-    protected $casts = [
-      'tag_ids' => 'array',
-      'ingredient_ids' => 'array'
-    ];
+    //protected $casts = [
+    //  'tag_ids' => 'array',
+    //  'ingredient_ids' => 'array'
+    //];
 
-    //protected $fillable = ['title'];
+    protected $fillable = ['category_id', 'tag_ids'];
 
     public $translatedAttributes = ['title'];
 
@@ -35,7 +35,7 @@ class Meal extends Model implements TranslatableContract
       return $this->hasOne(Category::class, ['category_id']);
     }
 
-    public function tag() {
+    public function tags() {
       return $this->hasMany(Tag::class, ['tag_ids']);
     }
 

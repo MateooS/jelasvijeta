@@ -16,15 +16,9 @@ return new class extends Migration
         Schema::create('meals', function (Blueprint $table) {
             $table->id();
 
-            //$table->foreignId('tag_ids')->references('id')->on('tags')->json();
-            //$table->foreignId('ingredient_ids')->references('id')
-            //->on('ingredients')->json();
-
-            /* TODO REMOVE THE NULLABLE FIELD FOR THESE 3! */
-            //$table->foreignId('category_id')->nullable();
-            //$table->text('description')->nullable();
-            //$table->json('tag_ids')->nullable();
-            //$table->json('ingredient_ids')->nullable();
+            $table->foreignId('category_id')->nullable();
+            $table->string('tag_ids');
+            //$table->string('ingredient_ids')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

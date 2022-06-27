@@ -14,18 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('meal_translations', function (Blueprint $table) {
-          $table->id('id');
+          $table->id();
           $table->bigInteger('meal_id')->unsigned();
           $table->string('locale')->index();
         
-
           $table->string('title');
           $table->text('description');
-
-          $table->foreignId('category_id')->nullable();
-          $table->json('tag_ids')->nullable();
-          $table->json('ingredient_ids')->nullable();
-        
 
           $table->unique(['meal_id', 'locale']);
           $table->foreign('meal_id')->references('id')->on('meals')->onDelete('cascade');
