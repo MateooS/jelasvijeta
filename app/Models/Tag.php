@@ -15,7 +15,6 @@ class Tag extends Model implements TranslatableContract
 
     protected $fillable = ['slug'];
     public $translatedAttributes = ['title'];
-
     
     /* Relationships */
     public function meal() {

@@ -17,13 +17,11 @@ class Meal extends Model implements TranslatableContract
     use HasFactory;
     use SoftDeletes;
 
-    /* Specify that these are arrays as we will be storing tags' and
-     * ingredients' ID's in arrays because multiple of them are allowed.
-     */
-    //protected $casts = [
-    //  'tag_ids' => 'array',
-    //  'ingredient_ids' => 'array'
-    //];
+    protected $casts = [
+      'created_at' => 'timestamp',
+      'updated_at' => 'timestamp',
+      'deleted_at' => 'timestamp'
+    ];
 
     protected $fillable = ['category_id', 'tag_ids'];
 

@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('meals', function (Blueprint $table) {
+        Schema::create('languages', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('category_id')->nullable();
-            $table->string('tag_ids');
-            $table->string('ingredient_ids');
-
+            $table->string('lang')->unique();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('meals');
+        Schema::dropIfExists('languages');
     }
 };
