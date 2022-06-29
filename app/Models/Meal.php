@@ -24,9 +24,7 @@ class Meal extends Model implements TranslatableContract
     ];
 
     protected $fillable = ['category_id', 'tag_ids'];
-
     public $translatedAttributes = ['title'];
-
     
     /* Relationships */
     public function category() {

@@ -100,6 +100,7 @@ class DatabaseSeeder extends Seeder
 
       /* Seed languages */
       $this->call(LanguageSeeder::class);
+      /* Seed changes to the Meal database table for diff_time testing */
       $this->call(ChangeMealsSeeder::class);
     }
 }

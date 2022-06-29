@@ -32,6 +32,7 @@ class ComposerStaticInit008066822b7a2f717a41e635fe1ee77e
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
+        'f755f834cbab2b4b2b74d0e259d3a5cc' => __DIR__ . '/../..' . '/app/Helpers/MealHelper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -656,6 +657,7 @@ class ComposerStaticInit008066822b7a2f717a41e635fe1ee77e
         'Database\\Factories\\MealFactory' => __DIR__ . '/../..' . '/database/factories/MealFactory.php',
         'Database\\Factories\\TagFactory' => __DIR__ . '/../..' . '/database/factories/TagFactory.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
+        'Database\\Seeders\\ChangeMealsSeeder' => __DIR__ . '/../..' . '/database/seeders/ChangeMealsSeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\LanguageSeeder' => __DIR__ . '/../..' . '/database/seeders/LanguageSeeder.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',

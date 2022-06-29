@@ -152,6 +152,7 @@ return array(
     'Database\\Factories\\MealFactory' => $baseDir . '/database/factories/MealFactory.php',
     'Database\\Factories\\TagFactory' => $baseDir . '/database/factories/TagFactory.php',
     'Database\\Factories\\UserFactory' => $baseDir . '/database/factories/UserFactory.php',
+    'Database\\Seeders\\ChangeMealsSeeder' => $baseDir . '/database/seeders/ChangeMealsSeeder.php',
     'Database\\Seeders\\DatabaseSeeder' => $baseDir . '/database/seeders/DatabaseSeeder.php',
     'Database\\Seeders\\LanguageSeeder' => $baseDir . '/database/seeders/LanguageSeeder.php',
     'DeepCopy\\DeepCopy' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
