@@ -43,7 +43,7 @@ if (!function_exists('checkLang')) {
 }
 
 /**
- * Check category, set $catNullStatus accordingly
+ * Check category, set $catIDStatus accordingly
  * 
  * @return integer
  */
@@ -103,16 +103,16 @@ if (!function_exists('getMeals')) {
      * 2 - show !NULL
      * 3 - show category_id
      */
-    $catNullStatus = getCatStatus($request);
+    $catIDStatus = getCatStatus($request);
 
     /* Filter only meals which have the category id that was given */
-    if ($catNullStatus == 0)
+    if ($catIDStatus == 0)
       $mealsBase = Meal::latest();
-    else if ($catNullStatus == 1)
+    else if ($catIDStatus == 1)
       $mealsBase = Meal::latest()->whereNull('category_id');
-    else if ($catNullStatus == 2)
+    else if ($catIDStatus == 2)
       $mealsBase = Meal::latest()->whereNotNull('category_id');
-    /* $catNullStatus = 3*/
+    /* $catIDStatus = 3*/
     else
       $mealsBase = Meal::latest()->where('category_id', $request['category']);
       
