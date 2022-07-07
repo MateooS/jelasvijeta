@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Meal;
+use App\Models\MealTags;
 
 class ChangeMealsSeeder extends Seeder
 {
@@ -20,17 +21,28 @@ class ChangeMealsSeeder extends Seeder
          */
         
         /**
-         * Update one of the Meals, and modify the timestamp to be greater than
-         * other timestamps
+         * Update one of the Meals - for each tag in meal_tags table where the
+         * meal_id is 3 - update the tag_id to the next one in the $tagIDs
          */
-        Meal::find(3)->update([
-            'tag_ids' => '11,13,12',
-            'updated_at' => Meal::find(3)->updated_at+1
+        $tagIDs = array(11,13,12);
+        $mealToModify = Meal::find(3);
+
+        Meal::find(3)->tags()->detach();
+        Meal::find(3)->tags()->attach($tagIDs);
+
+        /* Update the timestamp to be greater than other timestamps by 1 sec */
+        $mealToModify->update([
+            'updated_at' => $mealToModify->updated_at+1
         ]);
 
-        /* Soft delete, modify the timestamp to be greater than other timestamps */
-        Meal::find(5)->delete([
-            'deleted_at' => Meal::find(5)->deleted_at+1
+
+        /**
+         * Soft delete, modify the timestamp to be greater than other
+         * timestamps
+         */
+        $mealToDelete = Meal::find(5);
+        $mealToDelete->delete([
+            'deleted_at' => $mealToDelete->deleted_at+1
         ]);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Meal;
 use App\Models\Category;
 use App\Models\Tag;
 use App\Models\Ingredient;
+use App\Models\MealTags;
 
 /**
  * Check diff_time, set $dateTime accordingly
@@ -107,16 +108,23 @@ if (!function_exists('getMeals')) {
 
         /**
          * Find out whether 'category' is an int, 'null', or '!null' or not
-         * 0 - don't show cat
+         * 0 - don't filter with category_id
          * 1 - show NULL
          * 2 - show !NULL
          * 3 - show category_id
          */
         $catIDStatus = getCatStatus($request);
 
+        $mealIDs = '';
+        $filteredMealIDs = MealTags::where('tag_id', 'like', '%'.$askedTags)->get();
+
         /* Filter only meals which have the category id that was given */
         if ($catIDStatus == 0) {
             $mealsBase = Meal::latest();
+            /* TODO we got the TAG IDs, now what? */
+            $mealsBase->where('id', 'like', '%'.$filteredMealIDs[0]->meal->id.'%');
+            //foreach ($filteredMealIDs as $filteredMealID) {
+            //}
         } elseif ($catIDStatus == 1) {
             $mealsBase = Meal::latest()->whereNull('category_id');
         } elseif ($catIDStatus == 2) {
@@ -130,8 +138,13 @@ if (!function_exists('getMeals')) {
         }
             
         $meals = $mealsBase
-            ->withTrashed()
-            ->where('tag_ids', 'like', '%'.$askedTags);
+            ->withTrashed();
+            //->pivot->where('tag_id', 'like', '%'.$askedTags);
+
+        /* TODO */
+        //foreach ($askedTags as $tagID) {
+        //$filteredMealIDs = MealTags::where('tag_id', 'like', '%'.$askedTags)->get();
+        //}
 
         /* Where created_at, updated_at or deleted_at is greater than $dateTime */
         if ($dateTime != "1970-01-01 12:00:01") {
@@ -279,12 +292,11 @@ if (!function_exists('getTagsArray')) {
         $response['data'][$i]['tags'] = array();
 
         /* Get the tag IDs for this meal */
-        $tags = $meal->tag_ids;
-        $tag_ids = explode(',', $tags);
+        $tags = $meal->tags;
 
         /* Loop through all tags for this meal and add them to the array */
-        for ($j = 0; $j < count($tag_ids); $j++) {
-            $tag = Tag::find($tag_ids[$j]);
+        for ($j = 0; $j < count($tags); $j++) {
+            $tag = $tags[$j];
             $tagsArray[$j] = array();
             $tagsArray[$j]['id'] = $tag->id;
             $tagsArray[$j]['title'] = $tag->translate($request['lang'])->title;

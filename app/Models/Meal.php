@@ -29,7 +29,7 @@ class Meal extends Model implements TranslatableContract
     }
 
     public function tags() {
-        return $this->hasMany(Tag::class, ['tag_ids']);
+        return $this->belongsToMany(Tag::class, 'meal_tags');
     }
 
     public function ingredient() {

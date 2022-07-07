@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\Tag;
 use App\Models\Ingredient;
 use App\Models\Language;
+use App\Models\MealTags;
 
 class DatabaseSeeder extends Seeder
 {
@@ -56,11 +57,11 @@ class DatabaseSeeder extends Seeder
         }
 
         /* Create 5 new combinations of tags */
-        $tagCombArray[0] = $tags[3]->id.','.$tags[0]->id.','.$tags[4]->id;
-        $tagCombArray[1] = $tags[1]->id.','.$tags[3]->id.','.$tags[2]->id;
-        $tagCombArray[2] = $tags[0]->id.','.$tags[1]->id.','.$tags[2]->id;
-        $tagCombArray[3] = $tags[4]->id.','.$tags[2]->id;
-        $tagCombArray[4] = $tags[2]->id;
+        $tagCombArray[0] = array($tags[3]->id, $tags[0]->id, $tags[4]->id);
+        $tagCombArray[1] = array($tags[1]->id, $tags[3]->id, $tags[2]->id);
+        $tagCombArray[2] = array($tags[0]->id, $tags[1]->id, $tags[2]->id);
+        $tagCombArray[3] = array($tags[4]->id, $tags[2]->id);
+        $tagCombArray[4] = array($tags[2]->id);
 
         /* Create 5 new combinations of ingredients */
         $ingrCombArray[0] = $ingredients[0]->id.','.$ingredients[1]->id.','.
@@ -85,18 +86,17 @@ class DatabaseSeeder extends Seeder
                 'slug' => 'category-'.$lastCatID
             ]);
 
-            Meal::factory()->create([
+            $nextMeal = Meal::factory()->create([
                 'category_id' => $lastCategory->id,
-                'tag_ids' => $tagCombArray[$lastCatID-1],
                 'ingredient_ids' => $ingrCombArray[$lastCatID-1]
-            ]);
+            ])->tags()->attach($tagCombArray[$lastCatID-1]);
         }
 
         /* Create a meal that has no category */
-        Meal::factory()->create([
-            'tag_ids' => $tagCombArray[4],
+        $meal = Meal::factory()->create([
             'ingredient_ids' => $ingrCombArray[4]
-        ]);
+        ])->tags()->attach($tags[0]->id);
+
 
         /* Seed languages */
         $this->call(LanguageSeeder::class);
