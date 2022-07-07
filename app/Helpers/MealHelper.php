@@ -11,10 +11,10 @@ use App\Models\Ingredient;
 /**
  * Check diff_time, set $dateTime accordingly
  * 
- * @return lluminate\Http\Request 
+ * @return string
  */
 if (!function_exists('checkDiffTime')) {
-    function getDiffTime(Request $request): Request
+    function getDiffTime(Request $request): string
     {
         if (isset($request['diff_time'])) {
             if ($request['diff_time'] <= 0) {
@@ -97,7 +97,7 @@ if (!function_exists('getTags')) {
  * @return Illuminate\Pagination\LengthAwarePaginator
  */
 if (!function_exists('getMeals')) {
-    function getMeals(Request $request)
+    function getMeals(Request $request): LengthAwarePaginator
     {
         /* Get the date and time */
         $dateTime = getDiffTime($request);
@@ -246,7 +246,7 @@ if (!function_exists('getCatArray')) {
         Model $meal,
         int $i
     ): array {
-        $category = Category::find($meal->category_id);
+        $category = $meal->category;
         $categoryArray = array();
 
         if ($category) {
