@@ -17,14 +17,14 @@ class IngredientFactory extends Factory
     public function definition()
     {
         return [
-          'en' => [
-            'title' => 'Dummy title'
-          ],
-          'hr' => [
-            'title' => 'Lazni titl'
-          ],
-          
-          'slug' => $this->faker->slug()
+            'en' => [
+                'title' => 'Dummy title'
+            ],
+            'hr' => [
+                'title' => 'Lazni titl'
+            ],
+            
+                'slug' => $this->faker->slug()
         ];
     }
 }

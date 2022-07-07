@@ -18,9 +18,9 @@ class Meal extends Model implements TranslatableContract
     use SoftDeletes;
 
     protected $casts = [
-      'created_at' => 'timestamp',
-      'updated_at' => 'timestamp',
-      'deleted_at' => 'timestamp'
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp'
     ];
 
     protected $fillable = ['category_id', 'tag_ids'];
@@ -28,14 +28,14 @@ class Meal extends Model implements TranslatableContract
     
     /* Relationships */
     public function category() {
-      return $this->hasOne(Category::class, ['category_id']);
+        return $this->hasOne(Category::class, ['category_id']);
     }
 
     public function tags() {
-      return $this->hasMany(Tag::class, ['tag_ids']);
+        return $this->hasMany(Tag::class, ['tag_ids']);
     }
 
     public function ingredient() {
-      return $this->hasMany(Ingredient::class, ['ingredient_ids']);
+        return $this->hasMany(Ingredient::class, ['ingredient_ids']);
     }
 }

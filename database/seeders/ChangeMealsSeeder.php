@@ -15,23 +15,22 @@ class ChangeMealsSeeder extends Seeder
      */
     public function run()
     {
-      /**
-       * Changes to show-off the 'status' in the API response
-       */
-      
-      /**
-       * Update one of the Meals, and modify the timestamp to be greater than
-       * other timestamps
-       */
-      Meal::find(3)->update([
-        'tag_ids' => '11,13,12',
-        'updated_at' => Meal::find(3)->updated_at+1
-      ]);
+        /**
+         * Changes to show-off the 'status' in the API response
+         */
+        
+        /**
+         * Update one of the Meals, and modify the timestamp to be greater than
+         * other timestamps
+         */
+        Meal::find(3)->update([
+            'tag_ids' => '11,13,12',
+            'updated_at' => Meal::find(3)->updated_at+1
+        ]);
 
-      /* Soft delete, modify the timestamp to be greater than other timestamps */
-      Meal::find(5)->delete([
-        'deleted_at' => Meal::find(5)->deleted_at+1
-      ]);
-
+        /* Soft delete, modify the timestamp to be greater than other timestamps */
+        Meal::find(5)->delete([
+            'deleted_at' => Meal::find(5)->deleted_at+1
+        ]);
     }
 }

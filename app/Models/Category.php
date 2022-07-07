@@ -18,6 +18,6 @@ class Category extends Model implements TranslatableContract
 
     /* Relationships */
     public function meal() {
-      return $this->belongsToMany(Meal::class, ['category_id']);
+        return $this->belongsToMany(Meal::class, ['category_id']);
     }
 }

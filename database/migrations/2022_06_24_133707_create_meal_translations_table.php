@@ -14,16 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('meal_translations', function (Blueprint $table) {
-          $table->id();
-          $table->bigInteger('meal_id')->unsigned();
-          $table->string('locale')->index();
+            $table->id();
+            $table->bigInteger('meal_id')->unsigned();
+            $table->string('locale')->index();
         
-          $table->string('title');
-          $table->text('description');
+            $table->string('title');
+            $table->text('description');
 
-          $table->unique(['meal_id', 'locale']);
-          $table->foreign('meal_id')->references('id')->on('meals')->onDelete('cascade');
-          $table->softDeletes();
+            $table->unique(['meal_id', 'locale']);
+            $table->foreign('meal_id')->references('id')->on('meals')->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 

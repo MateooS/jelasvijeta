@@ -14,12 +14,12 @@ class LanguageSeeder extends Seeder
      * @return void
      */
     public function run() {
-      Language::create([
-        'lang' => 'en'
-      ]);
+        Language::create([
+            'lang' => 'en'
+        ]);
 
-      Language::create([
-        'lang' => 'hr'
-      ]);
+        Language::create([
+            'lang' => 'hr'
+        ]);
     }
 }
