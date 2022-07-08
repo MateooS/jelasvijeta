@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('meals', function (Blueprint $table) {
+        Schema::create('meal_ingredients', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->nullable();
+            $table->foreignId('meal_id');
+            $table->foreignId('ingredient_id');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('meals');
+        Schema::dropIfExists('meal_ingredients');
     }
 };

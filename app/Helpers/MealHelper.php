@@ -131,41 +131,36 @@ if (!function_exists('getMeals')) {
 
         /* Filter only meals which have the category id that was given */
         if ($catIDStatus == 0) {
-            $mealsBase = Meal::latest();
+            $meals = Meal::latest();
         } elseif ($catIDStatus == 1) {
-            $mealsBase = Meal::latest()->whereNull('category_id');
+            $meals = Meal::latest()->whereNull('category_id');
         } elseif ($catIDStatus == 2) {
-            $mealsBase = Meal::latest()->whereNotNull('category_id');
+            $meals = Meal::latest()->whereNotNull('category_id');
         /* $catIDStatus = 3*/
         } else {
-            $mealsBase = Meal::latest()->where(
+            $meals = Meal::latest()->where(
                 'category_id',
                 $request['category'
             ]);
         }
-            
-        $meals = $mealsBase
-            ->withTrashed()
-            ->whereIn('id', $mealIDs);
 
-        //dd($mealIDs);
+        $meals->withTrashed()->whereIn('id', $mealIDs);
+
         /* Where created_at, updated_at or deleted_at is greater than $dateTime */
         if ($dateTime != "1970-01-01 12:00:01") {
-            $meals = $meals
-            ->where('created_at', '>=', '%'.$dateTime.'%')
-            ->orWhere('updated_at', '>=', '%'.$dateTime.'%') 
-            ->orWhere('deleted_at', '>=', '%'.$dateTime.'%');
+            $meals
+                ->where('created_at', '>=', '%'.$dateTime.'%')
+                ->orWhere('updated_at', '>=', '%'.$dateTime.'%') 
+                ->orWhere('deleted_at', '>=', '%'.$dateTime.'%');
         }
 
         /**
          * Get a page with per_page or 10 Meal items, and withQueryString for
          * links
          */
-        $meals = $meals
+        return $meals
          ->paginate($request['per_page'] ?? 10)
          ->withQueryString();
-         
-        return $meals;
     }
 }
 

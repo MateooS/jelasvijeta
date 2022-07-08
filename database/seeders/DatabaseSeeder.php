@@ -64,14 +64,14 @@ class DatabaseSeeder extends Seeder
         $tagCombArray[4] = array($tags[2]->id);
 
         /* Create 5 new combinations of ingredients */
-        $ingrCombArray[0] = $ingredients[0]->id.','.$ingredients[1]->id.','.
-            $ingredients[2]->id;
-        $ingrCombArray[1] = $ingredients[1]->id.','.$ingredients[3]->id.','.
-            $ingredients[2]->id;
-        $ingrCombArray[2] = $ingredients[3]->id.','.$ingredients[0]->id.','.
-            $ingredients[4]->id;
-        $ingrCombArray[3] = $ingredients[4]->id.','.$ingredients[2]->id;
-        $ingrCombArray[4] = $ingredients[2]->id;
+        $ingrCombArray[0] = array($ingredients[0]->id, $ingredients[1]->id,
+            $ingredients[2]->id);
+        $ingrCombArray[1] = array($ingredients[1]->id, $ingredients[3]->id,
+            $ingredients[2]->id);
+        $ingrCombArray[2] = array($ingredients[3]->id, $ingredients[0]->id,
+            $ingredients[4]->id);
+        $ingrCombArray[3] = array($ingredients[4]->id, $ingredients[2]->id);
+        $ingrCombArray[4] = array($ingredients[2]->id);
 
         /* Generate 4 new categories and meals */
         for ($lastCatID = 1; $lastCatID < 5; $lastCatID++) {
@@ -88,14 +88,15 @@ class DatabaseSeeder extends Seeder
 
             $nextMeal = Meal::factory()->create([
                 'category_id' => $lastCategory->id,
-                'ingredient_ids' => $ingrCombArray[$lastCatID-1]
-            ])->tags()->attach($tagCombArray[$lastCatID-1]);
+            ]);
+            $nextMeal->tags()->attach($tagCombArray[$lastCatID-1]);
+            $nextMeal->ingredients()->attach($ingrCombArray[$lastCatID-1]);
         }
 
         /* Create a meal that has no category */
-        $meal = Meal::factory()->create([
-            'ingredient_ids' => $ingrCombArray[4]
-        ])->tags()->attach($tags[0]->id);
+        $meal = Meal::factory()->create();
+        $meal->tags()->attach($tags[0]->id);
+        $meal->ingredients()->attach($ingredients[0]->id);
 
 
         /* Seed languages */
