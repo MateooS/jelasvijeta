@@ -41,11 +41,11 @@ class TagHelper
     /**
      * Make sure that the input given in 'tags' is a number, when exploded by ','
      * 
-     * @return string
+     * @return array
      */
-    public static function getTags (Request $request): string
+    public static function getTags (Request $request): array
     {
-        $askedTags = '';
+        $askedTags = array();
         if ($request['tags']) {
             foreach (explode(',', $request['tags']) as $tag) {
                 if (!intval($tag)) {
@@ -54,7 +54,7 @@ class TagHelper
                         with ','."
                     );
                 }
-                $askedTags .= $tag;
+                array_push($askedTags, $tag);
             }
         }
         return $askedTags;

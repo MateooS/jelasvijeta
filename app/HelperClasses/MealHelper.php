@@ -53,10 +53,10 @@ class MealHelper
          * If 'tags' query parameter specified - filter by IDs that have those
          * tags
          */
-        if ($askedTags !== '') {
+        if (!empty($askedTags)) {
             $mealIDs = array();
 
-            $filteredMeals = MealTags::where('tag_id', 'like', $askedTags)
+            $filteredMeals = MealTags::whereIn('tag_id', $askedTags)
                 ->get();
 
             /* Extract the meal_ids and put them in an array */
@@ -64,17 +64,19 @@ class MealHelper
                 array_push($mealIDs, $filteredMeal->meal_id);
             }
 
-            $meals->withTrashed()->whereIn('id', $mealIDs);
+            $meals->whereIn('id', $mealIDs);
         }
+
+        $meals->withTrashed();
 
         /**
          * Where created_at, updated_at or deleted_at is greater than $dateTime
          */
         if ($dateTime != "1970-01-01 12:00:01") {
             $meals
-                ->where('created_at', '>=', '%'.$dateTime.'%')
-                ->orWhere('updated_at', '>=', '%'.$dateTime.'%') 
-                ->orWhere('deleted_at', '>=', '%'.$dateTime.'%');
+                ->where('created_at', '>=', $dateTime.'%')
+                ->orWhere('updated_at', '>=', $dateTime.'%') 
+                ->orWhere('deleted_at', '>=', $dateTime.'%');
         }
 
         /**
