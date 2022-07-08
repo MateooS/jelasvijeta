@@ -115,16 +115,23 @@ if (!function_exists('getMeals')) {
          */
         $catIDStatus = getCatStatus($request);
 
-        $mealIDs = '';
-        $filteredMealIDs = MealTags::where('tag_id', 'like', '%'.$askedTags)->get();
+
+        /**
+         * Get collections of MealTags, so we can extract the meal_id that we
+         * want
+         */
+        $mealIDs = array();
+        $filteredMeals = MealTags::where('tag_id', 'like', '%'.$askedTags)
+            ->get();
+
+        /* Extract the meal_ids and put them in an array */
+        foreach ($filteredMeals as $filteredMeal) {
+            array_push($mealIDs, $filteredMeal->meal_id);
+        }
 
         /* Filter only meals which have the category id that was given */
         if ($catIDStatus == 0) {
             $mealsBase = Meal::latest();
-            /* TODO we got the TAG IDs, now what? */
-            $mealsBase->where('id', 'like', '%'.$filteredMealIDs[0]->meal->id.'%');
-            //foreach ($filteredMealIDs as $filteredMealID) {
-            //}
         } elseif ($catIDStatus == 1) {
             $mealsBase = Meal::latest()->whereNull('category_id');
         } elseif ($catIDStatus == 2) {
@@ -138,20 +145,16 @@ if (!function_exists('getMeals')) {
         }
             
         $meals = $mealsBase
-            ->withTrashed();
-            //->pivot->where('tag_id', 'like', '%'.$askedTags);
+            ->withTrashed()
+            ->whereIn('id', $mealIDs);
 
-        /* TODO */
-        //foreach ($askedTags as $tagID) {
-        //$filteredMealIDs = MealTags::where('tag_id', 'like', '%'.$askedTags)->get();
-        //}
-
+        //dd($mealIDs);
         /* Where created_at, updated_at or deleted_at is greater than $dateTime */
         if ($dateTime != "1970-01-01 12:00:01") {
             $meals = $meals
-            ->where('created_at', '>=', $dateTime)
-            ->orWhere('updated_at', '>=', $dateTime) 
-            ->orWhere('deleted_at', '>=', $dateTime);
+            ->where('created_at', '>=', '%'.$dateTime.'%')
+            ->orWhere('updated_at', '>=', '%'.$dateTime.'%') 
+            ->orWhere('deleted_at', '>=', '%'.$dateTime.'%');
         }
 
         /**
